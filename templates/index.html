@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Classification System</title>
+</head>
+<body>
+
+
+<html>
+<body>
+
+    <nav class="navbar navbar-dark bg-info">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Text Classification </a>
+        </div>
+    </nav>
+
+    
+    <div class="container card" >
+      <p>
+        This simple application is built on twitter sentiment analysis dataset
+        <br>
+        Model is trained on distillbert for the dataset where task is to predict below classes of user sentiment 
+        <br>
+        1.Sadness
+        <br>
+        2.Joy
+        <br>
+        3.Love
+        <br>
+        4.Anger
+        <br>
+        5.Fear
+        <br>
+        6.Surprise
+      </p>
+      
+        <div class="row card-body" style='margin: 1% 4% 1% 4%;'>
+            <form>
+              <div class="form-group">
+                <label style="margin-bottom:5px ;" for="exampleFormControlTextarea1">Enter your text below</label>
+                <textarea class="form-control" id="textarea" rows="3"></textarea>
+              </div>
+            </form>
+          </form>
+  
+          <div class="col">
+            <div class="btn-group" role="group" >
+                
+                <button type="button" class="btn btn-outline-success">Submit</button>
+              </div>
+          </div>
+          <b style="margin-top: 10px;"></b>
+    </div>
+    </div>
+
+
+    </div>
+
+    
+    
+</body>
+
+  <!-- Modal -->
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered"" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" >404</h5>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Opps!! There is some issue with database please try again later</p>
+        </div>
+        <div class="modal-footer">
+    
+          <button type="button" class="btn btn-secondary" id='okbtn' data-dismiss="modal">ok!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>
+</body>
+</html>
+
+
+
+<script>
+
+    
+
+
+$( "button" ).click(function() {
+
+    var input_text = $('#textarea').val();
+    console.log(input_text)
+    $.ajax({
+        type: "POST",
+        async:true,
+        url: '/get_sentiment/',
+         data: JSON.stringify({input_string:input_text}),
+        success: function(data){
+            j_data = JSON.parse(data)
+           const rowData = j_data['output']
+           console.log(rowData)
+
+           html = 'Sentiment for the text is ' + rowData['label']
+           console.log(html)
+           $('b').html(html)
+
+        },
+        error: function (data) {
+        //alert('Opps! Movie not found in list , please enter other movie or check spelling')
+        $('.modal').modal('show')
+    }
+});
+
+$('#okbtn').click(function(){
+    $('.modal').modal('hide')
+    gridOptions.api.hideOverlay();
+})
+
+
+});
+</script>
+
+
+<style>
+
+
+.btn-group {
+  margin-top: 10px;
+}
+#myGrid {
+
+    margin: 1% 4% 1% 4%;
+
+}
+
+</style>
